@@ -25,7 +25,7 @@ async function getUser(user_id) {
     return users.find((user) => user.id == user_id);
 }
 
-let loadUsersInParallel = async (user_ids) => {
+const loadUsersInParallel = async (user_ids) => {
     let downloadedUsers = [];
 
     for (let index in user_ids) {
@@ -35,26 +35,16 @@ let loadUsersInParallel = async (user_ids) => {
     return Promise.all(downloadedUsers);
 };
 
-// async function loadUsersInParallel(user_ids) {
-//     let downloadedUsers = [];
-
-//         for (let index in user_ids) {
-//             let user = getUser(user_ids[index]);
-//             downloadedUsers.push(user);
-//         }
-//     return Promise.all(downloadedUsers);
-// }
-
-let loadUsersSequentially = async (user_ids) => {
-    let users = [];
+const loadUsersSequentially = async (user_ids) => {
+    let downloadedUsers = [];
 
     for (let index in user_ids) {
         await getUser(user_ids[index]).then(result => {
             console.log(`User ${user_ids[index]} downloaded`);
-            users.push(result);
+            downloadedUsers.push(result);
         });
     }
-    return users;
+    return downloadedUsers;
 };
 
 console.log("Download users in parallel mode")
